@@ -193,8 +193,8 @@ const GetAnalyticsController = async (req, res) => {
 
     const todayResult = await getTotals(startOfToday, endOfToday);
     const duesPaidToday = await getDuesPaid(startOfToday, endOfToday);
-    if (duesPaidToday.length > 0 && todayResult) {
-      if (todayResult[0].totalAmount) {
+    if (duesPaidToday.length && todayResult) {
+      if (todayResult[0]) {
         todayResult[0].totalAmount += duesPaidToday[0].totalAmount;
       }
     }
@@ -205,7 +205,7 @@ const GetAnalyticsController = async (req, res) => {
       endOfYesterday
     );
     if (duesPaidYesterday.length > 0) {
-      if (yesterdayResult[0].totalAmount > 0 && yesterdayResult[0]) {
+      if (yesterdayResult[0]) {
         yesterdayResult[0].totalAmount += duesPaidYesterday[0].totalAmount;
       }
     }
