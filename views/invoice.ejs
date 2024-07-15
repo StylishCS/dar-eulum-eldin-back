@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <style>
+      * {
+        border: 0;
+        box-sizing: content-box;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        list-style: none;
+        margin: 20;
+        padding: 20;
+        text-decoration: none;
+        vertical-align: top;
+      }
+
+      header {
+        margin: 0 0 3em;
+      }
+
+      h1 {
+        font: bold 100% sans-serif;
+        letter-spacing: 0.5em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      p {
+        color: black;
+      }
+
+      table {
+        color: black;
+      }
+
+      header h1 {
+        background: black;
+        border-radius: 0.25em;
+        color: white;
+        margin: 0 0 1em;
+        padding: 0.5em 0;
+      }
+
+      header address {
+        float: left;
+        font-size: 75%;
+        font-style: normal;
+        line-height: 1.25;
+        margin: 0 1em 1em 0;
+      }
+
+      header address p {
+        margin: 0 0 0.25em;
+      }
+
+      header span,
+      header img {
+        display: block;
+        float: right;
+      }
+
+      header span {
+        margin: 0 0 1em 1em;
+        max-height: 25%;
+        max-width: 60%;
+        position: relative;
+      }
+
+      header img {
+        max-height: 50%;
+        max-width: 50%;
+      }
+
+      header:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      article,
+      article address,
+      table {
+        margin: 0 0 3em;
+      }
+
+      article h1 {
+        clip: rect(0 0 0 0);
+        position: absolute;
+      }
+
+      article address {
+        float: left;
+        font-size: 125%;
+        font-weight: bold;
+      }
+
+      article:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      table {
+        font-size: 75%;
+        table-layout: auto;
+        width: 100%;
+      }
+
+      table {
+        border-collapse: separate;
+        border-spacing: 2px;
+      }
+
+      th,
+      td {
+        border-width: 1px;
+        padding: 1em;
+        position: relative;
+        text-align: left;
+      }
+
+      th,
+      td {
+        border-radius: 0.25em;
+        border-style: solid;
+      }
+
+      th {
+        background: #eee;
+        border-color: #bbb;
+      }
+
+      td {
+        border-color: #ddd;
+      }
+
+      table.firstTable {
+        float: right;
+        width: 36%;
+        height: 50%;
+      }
+
+      table.firstTable:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      table.firstTable th {
+        width: 40%;
+      }
+
+      table.firstTable td {
+        width: 60%;
+      }
+
+      form {
+        font: 16px/1 "Open Sans", sans-serif;
+        overflow: auto;
+        padding: 0.5in;
+      }
+
+      form {
+        background: #999;
+        cursor: default;
+      }
+
+      form {
+        box-sizing: border-box;
+        height: 11in;
+        margin: 0 auto;
+        overflow: hidden;
+        padding: 0.5in;
+        width: 8.5in;
+      }
+
+      form {
+        background: #fff;
+        border-radius: 1px;
+        box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+      }
+
+      aside h1#notes {
+        border: none;
+        border-width: 0 0 1px;
+        margin: 0 0 1em;
+      }
+
+      aside h1#notes {
+        border-color: #999;
+        border-bottom-style: solid;
+        border-bottom-width: 10%;
+        font: bold 100% sans-serif;
+        letter-spacing: 0.5em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      @media print {
+        header h1 {
+          background: black !important;
+          color: white !important;
+        }
+
+        th {
+          background: #eee !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <header>
+        <h1>INVOICE</h1>
+        <address>
+          <p>DAR ULUM EL-DEN</p>
+          <p>#429, First Floor</p>
+          <p>Tanzania</p>
+          <p>+255 753 076 704</p>
+        </address>
+        <span>
+          <img
+            alt="logo"
+            src="https://logos.textgiraffe.com/logos/logo-name/38701436-designstyle-change-m.png"
+            class="rounded float-right align-top"
+          />
+        </span>
+      </header>
+      <article>
+        <address>
+          <p><%= clientName %></p>
+          <p><%= invoice.clientUID %></p>
+        </address>
+        <table class="firstTable">
+          <tr>
+            <th><span>Invoice #</span></th>
+            <td><span><%= invoice.UID %></span></td>
+          </tr>
+          <tr>
+            <th><span>Date</span></th>
+            <td><span><%= new Date().toLocaleString()%></span></td>
+          </tr>
+          <tr>
+            <th><span>Amount Due</span></th>
+            <td>
+              <span id="prefix">$</span><span><%= invoice.totalAmount %></span>
+            </td>
+          </tr>
+        </table>
+
+        <table class="secondTable">
+          <thead>
+            <tr>
+              <th><span>Item</span></th>
+              <th><span>Description</span></th>
+              <th><span>Rate</span></th>
+              <th><span>Quantity</span></th>
+              <th><span>Price</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% invoice.products.forEach(function(item) { %>
+            <tr>
+              <td><span><%= item.name %></span></td>
+              <td>
+                <span
+                  ><%= item.authors || item.size %> | <%= item.category ||
+                  item.color %> | <%= item.manufacture%></span
+                >
+              </td>
+              <td>
+                <span data-prefix="$"></span
+                ><span
+                  ><%= invoice.clientUID != null ?
+                  (invoice.clientUID.startsWith('M') ? item.merchantsPrice :
+                  item.sellPrice): (item.sellPrice) %></span
+                >
+              </td>
+              <td><span><%= item.quantity %></span></td>
+              <td>
+                <span data-prefix="$"></span
+                ><span
+                  ><%= invoice.clientUID != null ?
+                  (invoice.clientUID.startsWith('M') ? item.merchantsPrice *
+                  item.quantity : item.sellPrice * item.quantity) :
+                  (item.sellPrice * item.quantity) %></span
+                >
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <table class="firstTable">
+          <tr>
+            <th><span>Total</span></th>
+            <td>
+              <span data-prefix="$"></span
+              ><span><%= invoice.totalAmount %></span>
+            </td>
+          </tr>
+          <tr>
+            <th><span>Discount</span></th>
+            <td>
+              <span data-prefix="$"></span><span><%= invoice.discount %></span>
+            </td>
+          </tr>
+          <tr>
+            <th><span>Amount Paid</span></th>
+            <td>
+              <span data-prefix="$"></span><span><%= invoice.paid %></span>
+            </td>
+          </tr>
+          <tr>
+            <th><span>Balance Due</span></th>
+            <td>
+              <span data-prefix="$"></span><span><%= invoice.due %></span>
+            </td>
+          </tr>
+        </table>
+      </article>
+    </div>
+    <aside>
+      <h1 id="notes"></h1>
+      <div>
+        <p>Happy Shopping, See You Soon!</p>
+      </div>
+    </aside>
+  </body>
+</html>
