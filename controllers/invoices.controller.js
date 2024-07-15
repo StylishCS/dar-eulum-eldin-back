@@ -30,9 +30,7 @@ async function getAllInvoicesController(req, res) {
     const invoices = await Invoice.find({
       $or: [{ clientUID: null }, { clientUID: /^C/ }],
     });
-    if (!invoices[0]) {
-      return res.status(404).json("No Invoices Found");
-    }
+
     return res.status(200).json(invoices.reverse());
   } catch (err) {
     console.log(err);
@@ -43,9 +41,7 @@ async function getAllInvoicesController(req, res) {
 async function getMerchantsInvoicesController(req, res) {
   try {
     const invoices = await Invoice.find({ clientUID: /^M/ });
-    if (!invoices[0]) {
-      return res.status(404).json("No Invoices Found");
-    }
+
     return res.status(200).json(invoices.reverse());
   } catch (err) {
     return res.status(500).json("INTERNAL SERVER ERROR");
@@ -64,9 +60,6 @@ async function getInvoiceByIdController(req, res) {
 async function deleteInvoiceController(req, res) {
   try {
     const invoice = await Invoice.findById(req.params.id);
-    if (!invoice) {
-      return res.status(404).json("Not Found");
-    }
 
     await Promise.all(
       invoice.products.map(async (prod) => {
@@ -148,9 +141,6 @@ async function editInvoiceController(req, res) {
     }, []);
 
     let invoice = await Invoice.findById(req.params.id);
-    if (!invoice) {
-      return res.status(404).json("Invoice Not Found");
-    }
 
     for (const action of groupedActions) {
       const { type, index, delta } = action;
